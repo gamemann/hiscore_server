@@ -6,5 +6,28 @@
  * @copyright MIT see LICENSE.md
  */
 
-import https from 'https'
+import tls from 'tls'
+import fs from 'fs'
 import mysql from 'mysql'
+
+const settings = {
+    port: 7050
+}
+
+const options = {
+    //
+}
+
+var server = tls.createServer(options, (socket) => {
+    socket.on('data', (data) => {
+        //
+    })
+
+    server.close(() => {
+        //
+    })
+})
+
+server.listen({ port: settings.port }, () => {
+    console.log(`Listening at port: ${settings.port}`)
+})

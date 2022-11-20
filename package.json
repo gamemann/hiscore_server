@@ -20,7 +20,8 @@
   "type": "module",
   "main": "hiscore_server.mjs",
   "scripts": {
-    "postinstall": "install.mjs"
+    "postinstall": "hiscore_install.mjs",
+    "test": "hiscore_test.mjs"
   },
   "bin": {
     "hiscore_server": "hiscore_server.mjs"
