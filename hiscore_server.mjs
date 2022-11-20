@@ -20,6 +20,8 @@ const settings = {
     }
 }
 
+console.log(`Starting server`)
+
 var server = tls.createServer(settings.serverOpts, (socket) => {
     socket.on('data', (data) => {
         //

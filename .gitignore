@@ -2,3 +2,5 @@
 package-lock.json
 *.code-workspace
 .npmignore
+
+*.pem
