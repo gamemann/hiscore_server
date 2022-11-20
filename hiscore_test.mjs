@@ -12,6 +12,7 @@ import mysql from 'mysql'
 
 const settings = {
     port: 7050,
+    host: 'localhost',
 
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),
@@ -21,7 +22,7 @@ const settings = {
     }
 }
 
-const client = tls.connect(settings.port, settings.serverOpts, () => {
+const client = tls.connect(settings.port, settings.host, settings.serverOpts, () => {
     client.write(`this is a test`)
 
     client.end(() => {

@@ -27,6 +27,7 @@
     "hiscore_server": "hiscore_server.mjs"
   },
   "dependencies": {
+    "inquirer": "^9.1.4",
     "mysql": "^2.18.1"
   }
 }
