@@ -20,7 +20,8 @@ const settings = {
     }
 }
 
-console.log(`Starting server`)
+console.log(`Starting High Score Server`)
+console.log(`Press Ctrl+C to exit`)
 
 var server = tls.createServer(settings.serverOpts, (socket) => {
     socket.on('data', (data) => {
