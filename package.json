@@ -1,0 +1,31 @@
+{
+  "name": "hiscore_server",
+  "version": "0.0.1",
+  "description": "High Score Server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wtfsystems/hiscore_server.git"
+  },
+  "keywords": [
+    "web server",
+    "high score",
+    "video game"
+  ],
+  "author": "Matthew Evans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wtfsystems/hiscore_server/issues"
+  },
+  "homepage": "https://github.com/wtfsystems/hiscore_server#readme",
+  "type": "module",
+  "main": "hiscore_server.mjs",
+  "scripts": {
+    "postinstall": "install.mjs"
+  },
+  "bin": {
+    "hiscore_server": "hiscore_server.mjs"
+  },
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
