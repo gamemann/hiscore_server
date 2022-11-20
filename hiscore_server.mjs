@@ -16,7 +16,8 @@ const settings = {
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),
         cert: fs.readFileSync('client-cert.pem'),
-        requestCert: true
+        requestCert: true,
+        ca: "X509 CERTIFICATE"
     }
 }
 
@@ -25,7 +26,7 @@ console.log(`Press Ctrl+C to exit`)
 
 var server = tls.createServer(settings.serverOpts, (socket) => {
     socket.on('data', (data) => {
-        //
+        console.log(data)
     })
 
     server.close(() => {
