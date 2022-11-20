@@ -11,14 +11,16 @@ import fs from 'fs'
 import mysql from 'mysql'
 
 const settings = {
-    port: 7050
+    port: 7050,
+
+    serverOpts: {
+        key: fs.readFileSync('private-key.pem'),
+        cert: fs.readFileSync('client-cert.pem'),
+        requestCert: true
+    }
 }
 
-const options = {
-    //
-}
-
-var server = tls.createServer(options, (socket) => {
+var server = tls.createServer(settings.serverOpts, (socket) => {
     socket.on('data', (data) => {
         //
     })
