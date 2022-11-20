@@ -22,7 +22,7 @@ const settings = {
     }
 }
 
-const client = tls.connect(settings.port, settings.host, settings.serverOpts, () => {
+const client = tls.connect(settings.port, settings.serverOpts, () => {
     client.write(`this is a test`)
 
     client.end(() => {
