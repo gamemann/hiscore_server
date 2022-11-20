@@ -1,5 +1,4 @@
-*.code-workspace
-
 /node_modules
 package-lock.json
+*.code-workspace
 .npmignore
