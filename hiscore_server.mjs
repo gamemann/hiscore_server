@@ -27,6 +27,8 @@ const settings = {
 console.log(`Starting High Score Server`)
 console.log(`Press Ctrl+C to exit`)
 
-https.createServer(settings.serverOpts, (req, res) => {
+const server = https.createServer(settings.serverOpts, (req, res) => {
     //
-}).listen(settings.port)
+})
+
+server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}`) })
