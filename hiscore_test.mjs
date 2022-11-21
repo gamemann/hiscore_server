@@ -10,12 +10,14 @@ import tls from 'tls'
 import fs from 'fs'
 import mysql from 'mysql'
 
+/**
+ * TEST SETTINGS OBJECT
+ */
 const settings = {
     port: 7050,
     host: 'localhost',
 
     serverOpts: {
-        key: fs.readFileSync('private-key.pem'),
         cert: fs.readFileSync('client-cert.pem')
     }
 }

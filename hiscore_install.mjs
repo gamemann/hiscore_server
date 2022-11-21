@@ -8,4 +8,10 @@
 
 import fs from 'fs'
 import mysql from 'mysql'
-import inquirer from 'inquirer'
+
+/**
+ * INSTALL SETTINGS OBJECT
+ */
+const settings = {
+    //
+}

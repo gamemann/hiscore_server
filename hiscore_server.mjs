@@ -10,6 +10,9 @@ import tls from 'tls'
 import fs from 'fs'
 import mysql from 'mysql'
 
+/**
+ * SERVER SETTINGS OBJECT
+ */
 const settings = {
     port: 7050,
 
