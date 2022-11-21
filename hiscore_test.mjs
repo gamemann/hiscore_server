@@ -16,15 +16,17 @@ const settings = {
 
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),
-        cert: fs.readFileSync('client-cert.pem'),
-        requestCert: true,
-        ca: "X509 CERTIFICATE"
+        cert: fs.readFileSync('client-cert.pem')
     }
 }
 
 const client = tls.connect(settings.port, settings.serverOpts, () => {
-    client.write(`this is a test`)
-
+    if(client.authorized) {
+        console.log(`Connection authorized.`)
+    } else {
+        console.log(`Not authorized:  ${conn.authorizationError}`)
+    }
+    client.emit('data', 'testing!!!')
     client.end(() => {
         console.log(`Client closed successfully`)
     })
