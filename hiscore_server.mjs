@@ -6,8 +6,8 @@
  * @copyright MIT see LICENSE.md
  */
 
-import tls from 'tls'
 import fs from 'fs'
+import tls from 'tls'
 import mysql from 'mysql'
 
 /**

@@ -6,12 +6,13 @@
  * @copyright MIT see LICENSE.md
  */
 
-import tls from 'tls'
 import fs from 'fs'
+import tls from 'tls'
 import mysql from 'mysql'
 
 /**
  * TEST SETTINGS OBJECT
+ * Fill in your server settings here.
  */
 const settings = {
     port: 7050,
@@ -20,6 +21,16 @@ const settings = {
     serverOpts: {
         cert: fs.readFileSync('client-cert.pem')
     }
+}
+
+/**
+ * TEST DATA OBJECT
+ */
+const testData = {
+    gameID: 0,
+    key: null,
+    playerName: '',
+    score: 0
 }
 
 const client = tls.connect(settings.port, settings.serverOpts, () => {
