@@ -16,8 +16,7 @@ const settings = {
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),
         cert: fs.readFileSync('client-cert.pem'),
-        requestCert: true,
-        rejectUnauthorized: false,
+        //rejectUnauthorized: false,
         ca: [ fs.readFileSync('server-csr.pem')]
     }
 }

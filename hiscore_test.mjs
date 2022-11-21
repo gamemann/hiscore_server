@@ -24,7 +24,7 @@ const client = tls.connect(settings.port, settings.serverOpts, () => {
     if(client.authorized) {
         console.log(`Connection authorized.`)
     } else {
-        console.log(`Not authorized:  ${conn.authorizationError}`)
+        console.log(`Not authorized:  ${client.authorizationError}`)
     }
     client.emit('data', 'testing!!!')
     client.end(() => {
