@@ -7,7 +7,7 @@
  */
 
 import fs from 'fs'
-import tls from 'tls'
+import https from 'https'
 import mysql from 'mysql'
 
 /**
@@ -27,16 +27,6 @@ const settings = {
 console.log(`Starting High Score Server`)
 console.log(`Press Ctrl+C to exit`)
 
-var server = tls.createServer(settings.serverOpts, (socket) => {
-    socket.on('data', (data) => {
-        console.log(data)
-    })
-
-    server.close(() => {
-        //
-    })
-})
-
-server.listen({ port: settings.port }, () => {
-    console.log(`Listening at port: ${settings.port}`)
-})
+https.createServer(settings.serverOpts, (req, res) => {
+    //
+}).listen(settings.port)

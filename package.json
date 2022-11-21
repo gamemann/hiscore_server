@@ -19,9 +19,6 @@
   "homepage": "https://github.com/wtfsystems/hiscore_server#readme",
   "type": "module",
   "main": "hiscore_server.mjs",
-  "scripts": {
-    "test": "hiscore_test.mjs"
-  },
   "dependencies": {
     "mysql": "^2.18.1"
   }
