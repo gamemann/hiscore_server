@@ -19,7 +19,6 @@ const settings = {
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),
         cert: fs.readFileSync('client-cert.pem'),
-        //rejectUnauthorized: false,
         ca: [ fs.readFileSync('server-csr.pem')]
     }
 }
@@ -28,7 +27,12 @@ console.log(`Starting High Score Server`)
 console.log(`Press Ctrl+C to exit`)
 
 const server = https.createServer(settings.serverOpts, (req, res) => {
-    //
+    res.writeHead(200)
+    res.end(`Connected`)
+
+    res.on('data', (data) => {})
+
+    req.on('error', (error) => { console.error(error) })
 })
 
 server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}`) })
