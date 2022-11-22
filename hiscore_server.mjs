@@ -38,8 +38,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         tempArgs.forEach((arg) => {
             let tempLabel = arg.substring(0, arg.indexOf('='))
             let tempValue = arg.substring(arg.indexOf('=') + 1, arg.length)
-            let tempObject = { [tempLabel]: tempValue }
-            tempArray.push(tempObject)
+            tempArray.push({ [tempLabel]: tempValue })
         })
         return tempArray
     })()
