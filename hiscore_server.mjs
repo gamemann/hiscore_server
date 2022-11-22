@@ -35,6 +35,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     const cmdArgs = (() => { 
         let tempArgs = req.url.slice(req.url.indexOf('?') + 1, req.url.length).split('&')
         let tempArray = []
+        //  Split them up into an array of labeled objects
         tempArgs.forEach((arg) => {
             let tempLabel = arg.substring(0, arg.indexOf('='))
             let tempValue = arg.substring(arg.indexOf('=') + 1, arg.length)
@@ -44,7 +45,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     })()
 
     res.writeHead(200)
-    if(cmdRoute === 'getkey' && req.method == `GET`) {
+    if(cmdRoute === 'get-session-key' && req.method == `GET`) {
         //  Run session key generation
 
         //  Verify provided game key exists in the database
