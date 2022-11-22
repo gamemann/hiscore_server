@@ -27,12 +27,13 @@ console.log(`Starting High Score Server`)
 console.log(`Press Ctrl+C to exit`)
 
 const server = https.createServer(settings.serverOpts, (req, res) => {
+    req.on('error', (error) => { console.error(error) })
+
+    var args = req.url.slice(2, req.url.length).split('&')
+    console.log(args)
+
     res.writeHead(200)
     res.end(`Connected`)
-
-    res.on('data', (data) => {})
-
-    req.on('error', (error) => { console.error(error) })
 })
 
 server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}`) })
