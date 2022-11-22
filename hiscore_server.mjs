@@ -8,6 +8,7 @@
 
 import fs from 'fs'
 import https from 'https'
+import crypto from 'crypto'
 import mysql from 'mysql'
 
 /**
