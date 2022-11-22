@@ -14,12 +14,12 @@ import mysql from 'mysql'
  * SERVER SETTINGS OBJECT
  */
 const settings = {
-    port: 7050,
+    port: 7050,  //  Port to run server on
 
     serverOpts: {
-        key: fs.readFileSync('private-key.pem'),
-        cert: fs.readFileSync('client-cert.pem'),
-        ca: [ fs.readFileSync('server-csr.pem')]
+        key: fs.readFileSync('private-key.pem'),   //  Your key file
+        cert: fs.readFileSync('client-cert.pem'),  //  Your cert file
+        ca: [ fs.readFileSync('server-csr.pem')]   //  Comment out for production
     }
 }
 
