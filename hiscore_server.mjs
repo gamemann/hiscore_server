@@ -37,7 +37,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     res.writeHead(200)
     if(cmdRoute === 'getkey' && req.method == `GET`) {
         res.end(`Here is the key!`)
-    } else if(cmdRoute === 'postdata') {
+    } else if(cmdRoute === 'postdata' && req.method == `GET`) {
         res.end(`Give data!`)
     } else {
         res.statusCode = 404
