@@ -47,9 +47,16 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     if(cmdRoute === 'getkey' && req.method == `GET`) {
         //  Run session key generation
 
+        //  Verify provided game key exists in the database
+        //  Generate session key
+
         res.end(`Here is the key!`)
     } else if(cmdRoute === 'postdata' && req.method == `GET`) {
         //  Receive session data and log
+
+        //  Verify provided game key exists in the database
+        //  Checks session key in session log
+        //  On success, write game data to database
 
         res.end(`Give data!`)
     } else {  //  Everything else results in a 404
