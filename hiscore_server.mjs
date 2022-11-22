@@ -16,6 +16,7 @@ import mysql from 'mysql'
  */
 const settings = {
     port: 7050,  //  Port to run server on
+    algorithm: 'sha512',
 
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),   //  Your key file
@@ -54,9 +55,25 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
             //  Verify provided game key exists in the database
-            let key = 0
-            //  Generate session key
-            return key
+
+            //  Get the game's crypto salt from db
+            let gameSalt = null
+            gameSalt = '54897589475893475893'
+
+            //  Generate session salt
+            let sessionSalt = null
+            sessionSalt = '48397589475892752975942'
+
+            //  Create the session key and output
+            let hash = crypto.createHash(settings.algorithm)
+            hash.update(cmdArgs['game-key'])
+            hash.update(gameSalt)
+            hash.update(sessionSalt)
+            hash.digest('hex')
+
+            //  Insert the session key into the DB for later
+
+            return hash  //  Return the output
         })()
 
         res.end(`${result}`)
