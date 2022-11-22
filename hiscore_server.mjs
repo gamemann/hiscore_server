@@ -46,21 +46,24 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
 
     res.writeHead(200)
     if(cmdRoute === 'get-session-key' && req.method == `GET`) {
-        //  Run session key generation
-
-        //  Verify provided game key exists in the database
-        //  Generate session key
-
-        res.end(`Here is the key!`)
+        const result = (() => {
+            if(cmdArgs['key'] === undefined) return 1
+            //  Run session key generation
+            //  Verify provided game key exists in the database
+            let key = 0
+            //  Generate session key
+            return key
+        })()
+        res.end(`${result}`)
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
-        //  Receive session data and log
-        const code = (() => {
+        const result = (() => {
+            if(cmdArgs['key'] === undefined) return 1
             //  Verify provided game key exists in the database
             //  Checks session key in session log
             //  On success, write game data to database
             return 0
         })()
-        res.end(`${code}`)
+        res.end(`${result}`)
     } else {  //  Everything else results in a 404
         res.statusCode = 404
         res.end(`Error 404 not found`)
