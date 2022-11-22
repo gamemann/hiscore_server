@@ -55,7 +55,6 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         //  Run session key generation
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
-            let gameKey = cmdArgs['game-key']
             //  Verify provided game key exists in the database
 
             //  Generate session salt
@@ -66,7 +65,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
 
             //  Create the session key
             let hash = crypto.createHash(settings.algorithm)
-            hash.update(gameKey)
+            hash.update(cmdArgs['game-key'])
             hash.update(settings.serverSalt)
             hash.update(sessionSalt)
             hash = hash.digest('hex')
