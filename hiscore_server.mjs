@@ -34,14 +34,14 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     //  Parameters to the command
     const cmdArgs = (() => { 
         let tempArgs = req.url.slice(req.url.indexOf('?') + 1, req.url.length).split('&')
-        let tempArray = []
-        //  Split them up into an array of labeled objects
+        let tempObj = {}
+        //  Split them up into a labeled object
         tempArgs.forEach((arg) => {
             let tempLabel = arg.substring(0, arg.indexOf('='))
             let tempValue = arg.substring(arg.indexOf('=') + 1, arg.length)
-            tempArray.push({ [tempLabel]: tempValue })
+            tempObj[tempLabel] = tempValue
         })
-        return tempArray
+        return tempObj
     })()
 
     res.writeHead(200)
