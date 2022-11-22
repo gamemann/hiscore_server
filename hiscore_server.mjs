@@ -50,16 +50,18 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
 
     res.writeHead(200)
     if(cmdRoute === 'get-session-key' && req.method == `GET`) {
+        //  Run session key generation
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
-            //  Run session key generation
             //  Verify provided game key exists in the database
             let key = 0
             //  Generate session key
             return key
         })()
+
         res.end(`${result}`)
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
+        //  Run session data storage
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
             if(cmdArgs['session-key'] === undefined) return 1
@@ -69,6 +71,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             //  On success, write game data to database
             return 0
         })()
+
         res.end(`${result}`)
     } else {  //  Everything else results in a 404
         res.statusCode = 404
