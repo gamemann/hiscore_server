@@ -52,7 +52,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         //  Generate session key
 
         res.end(`Here is the key!`)
-    } else if(cmdRoute === 'postdata' && req.method == `GET`) {
+    } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
         //  Receive session data and log
         const code = (() => {
             //  Verify provided game key exists in the database
@@ -60,7 +60,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             //  On success, write game data to database
             return 0
         })()
-        res.end(code)
+        res.end(`${code}`)
     } else {  //  Everything else results in a 404
         res.statusCode = 404
         res.end(`Error 404 not found`)
