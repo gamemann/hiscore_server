@@ -32,7 +32,17 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     //  Which command to run
     const cmdRoute = req.url.substring(1, req.url.indexOf('?'))
     //  Parameters to the command
-    const cmdArgs = req.url.slice(req.url.indexOf('?') + 1, req.url.length).split('&')
+    const cmdArgs = (() => { 
+        let tempArgs = req.url.slice(req.url.indexOf('?') + 1, req.url.length).split('&')
+        let tempArray = []
+        tempArgs.forEach((arg) => {
+            let tempLabel = arg.substring(0, arg.indexOf('='))
+            let tempValue = arg.substring(arg.indexOf('=') + 1, arg.length)
+            let tempObject = { [tempLabel]: tempValue }
+            tempArray.push(tempObject)
+        })
+        return tempArray
+    })()
 
     res.writeHead(200)
     if(cmdRoute === 'getkey' && req.method == `GET`) {
