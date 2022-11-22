@@ -26,8 +26,8 @@ const settings = {
 /**
  * Server start
  */
-console.log(`Starting High Score Server`)
-console.log(`Press Ctrl+C to exit`)
+console.log(`\nStarting High Score Server`)
+console.log(`Press Ctrl+C to exit\n`)
 
 const server = https.createServer(settings.serverOpts, (req, res) => {
     req.on('error', (error) => { console.error(error) })
@@ -50,7 +50,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     res.writeHead(200)
     if(cmdRoute === 'get-session-key' && req.method == `GET`) {
         const result = (() => {
-            if(cmdArgs['key'] === undefined) return 1
+            if(cmdArgs['game-key'] === undefined) return 1
             //  Run session key generation
             //  Verify provided game key exists in the database
             let key = 0
@@ -60,7 +60,9 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         res.end(`${result}`)
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
         const result = (() => {
-            if(cmdArgs['key'] === undefined) return 1
+            if(cmdArgs['game-key'] === undefined) return 1
+            if(cmdArgs['session-key'] === undefined) return 1
+            if(cmdArgs['data'] === undefined) return 1
             //  Verify provided game key exists in the database
             //  Checks session key in session log
             //  On success, write game data to database
@@ -76,4 +78,4 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
     console.log(cmdArgs)
 })
 
-server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}`) })
+server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}\n`) })
