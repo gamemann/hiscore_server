@@ -36,16 +36,18 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
 
     res.writeHead(200)
     if(cmdRoute === 'getkey' && req.method == `GET`) {
+        //  Run session key generation
+
         res.end(`Here is the key!`)
     } else if(cmdRoute === 'postdata' && req.method == `GET`) {
+        //  Receive session data and log
+
         res.end(`Give data!`)
-    } else {
+    } else {  //  Everything else results in a 404
         res.statusCode = 404
         res.end(`404`)
     }
 
-    //console.log(req.method)
-    console.log(req.url)
     console.log(cmdRoute)
     console.log(cmdArgs)
 })
