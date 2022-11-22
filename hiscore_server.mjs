@@ -58,7 +58,9 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         //  Checks session key in session log
         //  On success, write game data to database
 
-        res.end(`Give data!`)
+        var error = false
+        if(error) res.end(`1`)
+        else res.end(`0`)
     } else {  //  Everything else results in a 404
         res.statusCode = 404
         res.end(`404`)
