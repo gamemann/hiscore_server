@@ -19,10 +19,13 @@ const settings = {
     serverOpts: {
         key: fs.readFileSync('private-key.pem'),   //  Your key file
         cert: fs.readFileSync('client-cert.pem'),  //  Your cert file
-        ca: [ fs.readFileSync('server-csr.pem')]   //  Comment out for production
+        ca: [ fs.readFileSync('server-csr.pem') ]  //  Comment out for production
     }
 }
 
+/**
+ * Server start
+ */
 console.log(`Starting High Score Server`)
 console.log(`Press Ctrl+C to exit`)
 
