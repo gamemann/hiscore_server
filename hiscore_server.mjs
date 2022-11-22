@@ -29,7 +29,7 @@ console.log(`Press Ctrl+C to exit`)
 const server = https.createServer(settings.serverOpts, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
-    //  Which command to run
+    //  Which command to run - we also ignore it if no arguments are passed
     const cmdRoute = req.url.substring(1, req.url.indexOf('?'))
     //  Parameters to the command
     const cmdArgs = (() => { 
@@ -53,17 +53,16 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         res.end(`Here is the key!`)
     } else if(cmdRoute === 'postdata' && req.method == `GET`) {
         //  Receive session data and log
-
-        //  Verify provided game key exists in the database
-        //  Checks session key in session log
-        //  On success, write game data to database
-
-        var error = false
-        if(error) res.end(`1`)
-        else res.end(`0`)
+        const code = (() => {
+            //  Verify provided game key exists in the database
+            //  Checks session key in session log
+            //  On success, write game data to database
+            return 0
+        })()
+        res.end(code)
     } else {  //  Everything else results in a 404
         res.statusCode = 404
-        res.end(`404`)
+        res.end(`Error 404 not found`)
     }
 
     console.log(cmdRoute)
