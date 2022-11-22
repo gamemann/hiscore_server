@@ -29,7 +29,10 @@ console.log(`Press Ctrl+C to exit`)
 const server = https.createServer(settings.serverOpts, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
-    var args = req.url.slice(2, req.url.length).split('&')
+    var cmdRoute = req.url.substring(1, req.url.indexOf('?'))
+
+    var args = req.url.slice(req.url.indexOf('?') + 1, req.url.length).split('&')
+    console.log(cmdRoute)
     console.log(args)
 
     res.writeHead(200)
