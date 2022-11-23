@@ -44,6 +44,8 @@ var dataResult = null
 const server = https.createServer(settings.serverOpts, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
+    console.log(`Received connection from`)
+
     //  Which command to run - we also ignore it if no arguments are passed
     const cmdRoute = req.url.substring(1, req.url.indexOf('?'))
     //  Parameters to the command
