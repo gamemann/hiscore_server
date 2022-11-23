@@ -66,8 +66,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             if(cmdArgs['game-key'] === undefined) return 1
             //  Verify provided game key exists in the database
             //const sqlconn = mysql.createConnection(settings.mysql)
-            sqlconn.connect()
-            sqlconn.end()
+            //sqlconn.connect()
 
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
@@ -83,6 +82,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             hash = hash.digest('hex')
 
             //  Insert the session key into the DB for later
+            //sqlconn.end()
 
             return hash  //  Return the output
         })()
@@ -95,8 +95,13 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             if(cmdArgs['session-key'] === undefined) return 1
             if(cmdArgs['data'] === undefined) return 1
             //  Verify provided game key exists in the database
+            //const sqlconn = mysql.createConnection(settings.mysql)
+            //sqlconn.connect()
+
             //  Checks session key in session log
+
             //  On success, write game data to database
+            //sqlconn.end()
             dataResult = cmdArgs['data']
             return 0
         })()
