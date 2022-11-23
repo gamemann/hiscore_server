@@ -26,10 +26,10 @@ const settings = {
     },
 
     mysql: {
-        host: 'localhost',
-        user: 'user',
-        password: 'password',
-        database: 'hiscore_db'
+        host: 'localhost',      //  Hostname for sql database
+        user: 'user',           //  Username for sql database
+        password: 'password',   //  Password for sql database
+        database: 'hiscore_db'  //  Database name to write to
     }
 }
 
@@ -67,9 +67,21 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
             console.log(`Generating session key for ${req.socket.remoteAddress}`)
-            //  Verify provided game key exists in the database
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
+            //  Verify provided game key exists in the database
+            let sqlError = 0
+            sqlconn.query(`SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`, (error, results, fields) => {
+                if (error) {
+                    console.log(`${error}`)
+                    sqlError = 1
+                    return
+                }
+                else {
+                    console.log(results)
+                }
+            })
+            if(sqlError == 1) return 1
 
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
@@ -85,7 +97,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             hash = hash.digest('hex')
 
             //  Insert the session key into the DB for later
-            //sqlconn.end()
+            sqlconn.end()
 
             return hash  //  Return the output
         })()
@@ -99,13 +111,13 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             if(cmdArgs['data'] === undefined) return 1
             console.log(`Logging session data for ${req.socket.remoteAddress}`)
             //  Verify provided game key exists in the database
-            //const sqlconn = mysql.createConnection(settings.mysql)
-            //sqlconn.connect()
+            const sqlconn = mysql.createConnection(settings.mysql)
+            sqlconn.connect()
 
             //  Checks session key in session log
 
             //  On success, write game data to database
-            //sqlconn.end()
+            sqlconn.end()
             dataResult = cmdArgs['data']
             console.log(dataResult)
             return 0
