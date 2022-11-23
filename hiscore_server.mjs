@@ -103,6 +103,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             //  On success, write game data to database
             //sqlconn.end()
             dataResult = cmdArgs['data']
+            console.log(dataResult)
             return 0
         })()
 
@@ -111,8 +112,6 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         res.statusCode = 404
         res.end(`Error 404 not found`)
     }
-
-    console.log(dataResult)
 })
 
 server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}\n`) })
