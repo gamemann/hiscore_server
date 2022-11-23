@@ -92,9 +92,6 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         res.statusCode = 404
         res.end(`Error 404 not found`)
     }
-
-    console.log(cmdRoute)
-    console.log(cmdArgs)
 })
 
 server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}\n`) })
