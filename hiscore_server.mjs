@@ -71,7 +71,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             sqlconn.connect()
             //  Verify provided game key exists in the database
             let sqlError = 0
-            sqlconn.query(`SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`, (error, results, fields) => {
+            sqlconn.query(`SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`, (error, results) => {
                 if (error) {
                     console.log(`${error}`)
                     sqlError = 1
