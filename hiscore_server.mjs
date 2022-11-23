@@ -75,12 +75,14 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
                 if (error) {
                     console.log(`${error}`)
                     sqlError = 1
-                    return
                 }
                 else {
-                    console.log(results)
+                    if(results.length === 0) {
+                        sqlError = 1
+                    }
                 }
             })
+            console.log(sqlError)
             if(sqlError == 1) return 1
 
             //  Generate session salt
