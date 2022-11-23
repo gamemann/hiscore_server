@@ -44,7 +44,7 @@ var dataResult = null
 const server = https.createServer(settings.serverOpts, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
-    console.log(`Received connection from`)
+    console.log(`Received connection from ${req.socket.remoteAddress}`)
 
     //  Which command to run - we also ignore it if no arguments are passed
     const cmdRoute = req.url.substring(1, req.url.indexOf('?'))
@@ -66,9 +66,10 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         //  Run session key generation
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
+            console.log(`Generating session key for ${req.socket.remoteAddress}`)
             //  Verify provided game key exists in the database
-            //const sqlconn = mysql.createConnection(settings.mysql)
-            //sqlconn.connect()
+            const sqlconn = mysql.createConnection(settings.mysql)
+            sqlconn.connect()
 
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
@@ -96,6 +97,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             if(cmdArgs['game-key'] === undefined) return 1
             if(cmdArgs['session-key'] === undefined) return 1
             if(cmdArgs['data'] === undefined) return 1
+            console.log(`Logging session data for ${req.socket.remoteAddress}`)
             //  Verify provided game key exists in the database
             //const sqlconn = mysql.createConnection(settings.mysql)
             //sqlconn.connect()
@@ -114,6 +116,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
         res.statusCode = 404
         res.end(`Error 404 not found`)
     }
+    console.log(`${req.socket.remoteAddress} disconnected`)
 })
 
 server.listen(settings.port, () => { console.log(`Running server on port ${settings.port}\n`) })
