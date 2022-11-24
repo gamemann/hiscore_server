@@ -72,6 +72,7 @@ const server = https.createServer(settings.https, (req, res) => {
             console.log(`Generating session key for ${req.socket.remoteAddress}`)
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
+
             //  Verify provided game key exists in the database
             let sqlError = 0
             await new Promise((resolve, reject) => {
@@ -94,8 +95,10 @@ const server = https.createServer(settings.https, (req, res) => {
             }).catch(res => { sqlError = 1 })
             if(sqlError === 1) {
                 sqlconn.end()
+                console.log(`Key rejected for ${req.socket.remoteAddress}`)
                 return 1
             }
+
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
             sessionSalt += `${Math.random()}` + `${Math.random()}` + `${Math.random()}`
@@ -125,6 +128,7 @@ const server = https.createServer(settings.https, (req, res) => {
             console.log(`Logging session data for ${req.socket.remoteAddress}`)
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
+
             //  Verify provided game key exists in the database
             let sqlError = 0
             await new Promise((resolve, reject) => {
@@ -147,6 +151,7 @@ const server = https.createServer(settings.https, (req, res) => {
             }).catch(res => { sqlError = 1 })
             if(sqlError === 1) {
                 sqlconn.end()
+                console.log(`Key rejected for ${req.socket.remoteAddress}`)
                 return 1
             }
 
