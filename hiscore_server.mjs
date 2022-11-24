@@ -78,8 +78,8 @@ const server = https.createServer(settings.https, (req, res) => {
             let sqlError = 0
             await new Promise((resolve, reject) => {
                 sqlconn.query(
-                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`,
-                    (error, results) =>
+                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?`,
+                    [ cmdArgs['game-key'] ], (error, results) =>
                 {
                     if (error) reject(1)
                     else {
@@ -131,8 +131,8 @@ const server = https.createServer(settings.https, (req, res) => {
             let sqlError = 0
             await new Promise((resolve, reject) => {
                 sqlconn.query(
-                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '?'`,
-                    cmdArgs['game-key'], (error, results) =>
+                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?`,
+                    [ cmdArgs['game-key'] ], (error, results) =>
                 {
                     if (error) reject(1)
                     else {
