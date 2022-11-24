@@ -42,8 +42,6 @@ const settings = {
 console.log(`\nStarting High Score Server`)
 console.log(`Press Ctrl+C to exit\n`)
 
-var dataResult = null
-
 const server = https.createServer(settings.https, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
@@ -157,8 +155,6 @@ const server = https.createServer(settings.https, (req, res) => {
             //  On success, write game data to database
 
             sqlconn.end()
-            dataResult = cmdArgs['data']
-            console.log(dataResult)
             return 0
         })().then((result) => { res.end(`${result}`) })
     } else {  //  Everything else results in a 404
