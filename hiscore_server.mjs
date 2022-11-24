@@ -36,6 +36,15 @@ const settings = {
     }
 }
 
+class Resolver {
+    constructor() {
+        this.promise = new Promise((resolve, reject) => {
+            this.reject = reject
+            this.resolve = resolve
+        })
+    }
+}
+
 /**
  * Server start
  */
@@ -69,30 +78,35 @@ const server = https.createServer(settings.https, (req, res) => {
         //////////////////////////////////
         //  Run session key generation  //
         //////////////////////////////////
-        const result = (() => {
+        const result = (async () => {
             if(cmdArgs['game-key'] === undefined) return 1
             console.log(`Generating session key for ${req.socket.remoteAddress}`)
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
             //  Verify provided game key exists in the database
             let sqlError = 0
-            sqlconn.query(`SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`, (error, results) => {
-                if (error) {
-                    console.log(`${error}`)
-                    sqlError = 1
-                }
-                else {
-                    if(results.length === 0) {
-                        sqlError = 1
+            await new Promise((resolve, reject) => {
+                sqlconn.query(
+                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`,
+                    (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        if(results.length === 0) {
+                            sqlError = 1
+                            reject(1)
+                        }
+                        else {
+                            sqlError = 0
+                            resolve(0)
+                        }
                     }
-                }
-            })
-            console.log(sqlError)
-            if(sqlError == 1) {
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
                 sqlconn.end()
                 return 1
             }
-
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
             sessionSalt += `${Math.random()}` + `${Math.random()}` + `${Math.random()}`
@@ -117,7 +131,7 @@ const server = https.createServer(settings.https, (req, res) => {
         ////////////////////////////////
         //  Run session data storage  //
         ////////////////////////////////
-        const result = (() => {
+        const result = (async () => {
             if(cmdArgs['game-key'] === undefined) return 1
             if(cmdArgs['session-key'] === undefined) return 1
             if(cmdArgs['data'] === undefined) return 1
@@ -125,6 +139,29 @@ const server = https.createServer(settings.https, (req, res) => {
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
             //  Verify provided game key exists in the database
+            let sqlError = 0
+            await new Promise((resolve, reject) => {
+                sqlconn.query(
+                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`,
+                    (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        if(results.length === 0) {
+                            sqlError = 1
+                            reject(1)
+                        }
+                        else {
+                            sqlError = 0
+                            resolve(0)
+                        }
+                    }
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
+                sqlconn.end()
+                return 1
+            }
 
             //  Checks session key in session log
 
