@@ -63,7 +63,9 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
 
     res.writeHead(200)
     if(cmdRoute === 'get-session-key' && req.method == `GET`) {
-        //  Run session key generation
+        //////////////////////////////////
+        //  Run session key generation  //
+        //////////////////////////////////
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
             console.log(`Generating session key for ${req.socket.remoteAddress}`)
@@ -82,6 +84,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
                     }
                 }
             })
+            sqlconn.end()
             console.log(sqlError)
             if(sqlError == 1) return 1
 
@@ -99,14 +102,15 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             hash = hash.digest('hex')
 
             //  Insert the session key into the DB for later
-            sqlconn.end()
 
             return hash  //  Return the output
         })()
 
         res.end(`${result}`)
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
-        //  Run session data storage
+        ////////////////////////////////
+        //  Run session data storage  //
+        ////////////////////////////////
         const result = (() => {
             if(cmdArgs['game-key'] === undefined) return 1
             if(cmdArgs['session-key'] === undefined) return 1
