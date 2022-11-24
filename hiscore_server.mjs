@@ -19,7 +19,7 @@ const settings = {
     algorithm: 'sha512',           //  Crypto algorithm to use
     serverSalt: 'your text here',  //  Additional salt, can be any text
 
-    serverOpts: {
+    https: {
         key: fs.readFileSync('private-key.pem'),   //  Your key file
         cert: fs.readFileSync('client-cert.pem'),  //  Your cert file
         ca: [ fs.readFileSync('server-csr.pem') ]  //  Comment out for production
@@ -41,7 +41,7 @@ console.log(`Press Ctrl+C to exit\n`)
 
 var dataResult = null
 
-const server = https.createServer(settings.serverOpts, (req, res) => {
+const server = https.createServer(settings.https, (req, res) => {
     req.on('error', (error) => { console.error(error) })
 
     console.log(`Received connection from ${req.socket.remoteAddress}`)
@@ -84,9 +84,11 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
                     }
                 }
             })
-            sqlconn.end()
             console.log(sqlError)
-            if(sqlError == 1) return 1
+            if(sqlError == 1) {
+                sqlconn.end()
+                return 1
+            }
 
             //  Generate session salt
             let sessionSalt = Date.toString() + Date.toString() + Date.toString()
@@ -102,6 +104,7 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             hash = hash.digest('hex')
 
             //  Insert the session key into the DB for later
+            sqlconn.end()
 
             return hash  //  Return the output
         })()
@@ -116,9 +119,9 @@ const server = https.createServer(settings.serverOpts, (req, res) => {
             if(cmdArgs['session-key'] === undefined) return 1
             if(cmdArgs['data'] === undefined) return 1
             console.log(`Logging session data for ${req.socket.remoteAddress}`)
-            //  Verify provided game key exists in the database
             const sqlconn = mysql.createConnection(settings.mysql)
             sqlconn.connect()
+            //  Verify provided game key exists in the database
 
             //  Checks session key in session log
 
