@@ -162,8 +162,7 @@ const server = https.createServer(settings.https, (req, res) => {
             sqlconn.end()
             return 0
         })().then((result) => { res.end(`${result}`) })
-    } else {  //  Everything else results in a 404
-        res.statusCode = 404
+    } else {  //  Everything else displays error code 1
         res.end(`1`)
     }
     console.log(`${req.socket.remoteAddress} disconnected`)
