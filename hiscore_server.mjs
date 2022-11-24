@@ -15,16 +15,19 @@ import mysql from 'mysql'
  * SERVER SETTINGS OBJECT
  */
 const settings = {
+    //  Script settings
     port: 7050,                    //  Port to run server on
     algorithm: 'sha512',           //  Crypto algorithm to use
     serverSalt: 'your text here',  //  Additional salt, can be any text
 
+    //  HTTPS server settings
     https: {
         key: fs.readFileSync('private-key.pem'),   //  Your key file
         cert: fs.readFileSync('client-cert.pem'),  //  Your cert file
         ca: [ fs.readFileSync('server-csr.pem') ]  //  Comment out for production
     },
 
+    //  MySQL server settings
     mysql: {
         host: 'localhost',      //  Hostname for sql database
         user: 'user',           //  Username for sql database
