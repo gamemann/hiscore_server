@@ -36,15 +36,6 @@ const settings = {
     }
 }
 
-class Resolver {
-    constructor() {
-        this.promise = new Promise((resolve, reject) => {
-            this.reject = reject
-            this.resolve = resolve
-        })
-    }
-}
-
 /**
  * Server start
  */
@@ -78,7 +69,7 @@ const server = https.createServer(settings.https, (req, res) => {
         //////////////////////////////////
         //  Run session key generation  //
         //////////////////////////////////
-        const result = (async () => {
+        (async () => {
             if(cmdArgs['game-key'] === undefined) return 1
             console.log(`Generating session key for ${req.socket.remoteAddress}`)
             const sqlconn = mysql.createConnection(settings.mysql)
@@ -124,14 +115,12 @@ const server = https.createServer(settings.https, (req, res) => {
             sqlconn.end()
 
             return hash  //  Return the output
-        })()
-
-        res.end(`${result}`)
+        })().then((result) => { res.end(`${result}`) })
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
         ////////////////////////////////
         //  Run session data storage  //
         ////////////////////////////////
-        const result = (async () => {
+        (async () => {
             if(cmdArgs['game-key'] === undefined) return 1
             if(cmdArgs['session-key'] === undefined) return 1
             if(cmdArgs['data'] === undefined) return 1
@@ -142,8 +131,8 @@ const server = https.createServer(settings.https, (req, res) => {
             let sqlError = 0
             await new Promise((resolve, reject) => {
                 sqlconn.query(
-                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '${cmdArgs['game-key']}'`,
-                    (error, results) =>
+                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE '?'`,
+                    cmdArgs['game-key'], (error, results) =>
                 {
                     if (error) reject(1)
                     else {
@@ -166,13 +155,12 @@ const server = https.createServer(settings.https, (req, res) => {
             //  Checks session key in session log
 
             //  On success, write game data to database
+
             sqlconn.end()
             dataResult = cmdArgs['data']
             console.log(dataResult)
             return 0
-        })()
-
-        res.end(`${result}`)
+        })().then((result) => { res.end(`${result}`) })
     } else {  //  Everything else results in a 404
         res.statusCode = 404
         res.end(`Error 404 not found`)
