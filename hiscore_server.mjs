@@ -164,7 +164,7 @@ const server = https.createServer(settings.https, (req, res) => {
         })().then((result) => { res.end(`${result}`) })
     } else {  //  Everything else results in a 404
         res.statusCode = 404
-        res.end(`Error 404 not found`)
+        res.end(`1`)
     }
     console.log(`${req.socket.remoteAddress} disconnected`)
 })
