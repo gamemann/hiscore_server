@@ -88,7 +88,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.GETGAMEKEY,
                     [ cmdArgs['game-key'] ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.length === 0) {
                             sqlError = 1
@@ -123,7 +126,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.SAVESESSIONKEY,
                     [ Date.toString(), hash ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.length === 0) {
                             sqlError = 1
@@ -161,7 +167,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.GETGAMEKEY,
                     [ cmdArgs['game-key'] ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.length === 0) {
                             sqlError = 1
@@ -184,7 +193,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.VERIFYSESSIONKEY,
                     [ cmdArgs['session-key'] ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.length === 0) {
                             sqlError = 1
@@ -206,7 +218,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.DELETESESSIONKEY,
                     [ cmdArgs['session-key'] ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.affectedRows < 1) sqlError = 1
                         resolve(0)
@@ -224,7 +239,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 sqlconn.query(settings.sqlQueries.SAVESESSIONDATA,
                     [ gameID, Date.toString(), cmdArgs['data'] ], (error, results) =>
                 {
-                    if (error) reject(1)
+                    if (error) {
+                        console.log(`Error for ${req.socket.remoteAddress}: ${error}`)
+                        reject(1)
+                    }
                     else {
                         if(results.affectedRows < 1) sqlError = 1
                         resolve(0)
