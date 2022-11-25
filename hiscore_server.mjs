@@ -37,11 +37,11 @@ const settings = {
 
     //  SQL queries used in the script
     sqlQueries: {
-        GETGAMEKEY: 'SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?',
+        GETGAMEKEY: 'SELECT Id FROM game_keys WHERE Gamekey LIKE ?',
         SAVESESSIONKEY: 'INSERT INTO session_keys (Date, Sessionkey) VALUES (?, ?)',
         VERIFYSESSIONKEY: 'SELECT Sessionkey FROM session_keys WHERE Sessionkey LIKE ?',
         DELETESESSIONKEY: 'DELETE FROM session_keys WHERE Sessionkey=?',
-        SAVESESSIONDATA: ''
+        SAVESESSIONDATA: 'INSERT INTO session_data (Gameid, Date, Data) VALUES (?, ?, ?)'
     }
 }
 
@@ -153,6 +153,7 @@ const server = https.createServer(settings.https, (req, res) => {
 
             //  Verify provided game key exists in the database
             let sqlError = 0
+            var gameID = 0  //  Also store the game ID
             await new Promise((resolve, reject) => {
                 sqlconn.query(settings.sqlQueries.GETGAMEKEY,
                     [ cmdArgs['game-key'] ], (error, results) =>
@@ -163,6 +164,7 @@ const server = https.createServer(settings.https, (req, res) => {
                             sqlError = 1
                             reject(1)
                         }
+                        gameID = 0 // store game ID
                         resolve(0)
                     }
                 })
@@ -217,7 +219,7 @@ const server = https.createServer(settings.https, (req, res) => {
             sqlError = 0
             await new Promise((resolve, reject) => {
                 sqlconn.query(settings.sqlQueries.SAVESESSIONDATA,
-                    [ cmdArgs['data'] ], (error, results) =>
+                    [ gameID, Date.toString(), cmdArgs['data'] ], (error, results) =>
                 {
                     if (error) reject(1)
                     else {
