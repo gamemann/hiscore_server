@@ -41,7 +41,7 @@ const settings = {
         SAVESESSIONKEY: 'INSERT INTO session_keys (Date, Sessionkey) VALUES (?, ?)',
         VERIFYSESSIONKEY: 'SELECT Sessionkey FROM session_keys WHERE Sessionkey LIKE ?',
         DELETESESSIONKEY: 'DELETE FROM session_keys WHERE Sessionkey=?',
-        SAVESESSIONDATA: 'INSERT INTO session_data (Gameid, Date, Data) VALUES (?, ?, ?)'
+        SAVESESSIONDATA: 'INSERT INTO session_data (Id, Date, Data) VALUES (?, ?, ?)'
     }
 }
 
