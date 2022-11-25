@@ -196,6 +196,22 @@ const server = https.createServer(settings.https, (req, res) => {
             }
 
             //  If match, remove session key from database
+            sqlError = 0
+            await new Promise((resolve, reject) => {
+                sqlconn.query(settings.sqlQueries.DELETESESSIONKEY,
+                    [ cmdArgs['session-key'] ], (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        //  Verify removed
+                        resolve(0)
+                    }
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
+                //  Report error, but continue anyway
+                console.log(`Session key not deleted for ${req.socket.remoteAddress}`)
+            }
 
             //  On success, write game data to database
             sqlError = 0
