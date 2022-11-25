@@ -155,7 +155,9 @@ const server = https.createServer(settings.https, (req, res) => {
                 return 1
             }
 
-            //  Checks session key in session log
+            //  Checks session key in database
+
+            //  If match, remove session key from database
 
             //  On success, write game data to database
 
