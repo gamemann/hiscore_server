@@ -33,6 +33,11 @@ const settings = {
         user: 'user',           //  Username for sql database
         password: 'password',   //  Password for sql database
         database: 'hiscore_db'  //  Database name to write to
+    },
+
+    //  SQL queries used in the script
+    sqlQueries: {
+        GETGAMEKEY: 'SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?'
     }
 }
 
@@ -76,8 +81,7 @@ const server = https.createServer(settings.https, (req, res) => {
             //  Verify provided game key exists in the database
             let sqlError = 0
             await new Promise((resolve, reject) => {
-                sqlconn.query(
-                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?`,
+                sqlconn.query(settings.sqlQueries.GETGAMEKEY,
                     [ cmdArgs['game-key'] ], (error, results) =>
                 {
                     if (error) reject(1)
@@ -132,8 +136,7 @@ const server = https.createServer(settings.https, (req, res) => {
             //  Verify provided game key exists in the database
             let sqlError = 0
             await new Promise((resolve, reject) => {
-                sqlconn.query(
-                    `SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?`,
+                sqlconn.query(settings.sqlQueries.GETGAMEKEY,
                     [ cmdArgs['game-key'] ], (error, results) =>
                 {
                     if (error) reject(1)
