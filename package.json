@@ -1,6 +1,6 @@
 {
   "name": "hiscore_server",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "High Score Server",
   "repository": {
     "type": "git",
