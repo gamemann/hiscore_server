@@ -37,7 +37,11 @@ const settings = {
 
     //  SQL queries used in the script
     sqlQueries: {
-        GETGAMEKEY: 'SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?'
+        GETGAMEKEY: 'SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?',
+        SAVESESSIONKEY: '',
+        VERIFYSESSIONKEY: '',
+        DELETESESSIONKEY: '',
+        SAVESESSIONDATA: ''
     }
 }
 
