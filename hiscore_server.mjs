@@ -37,7 +37,7 @@ const settings = {
 
     //  SQL queries used in the script
     sqlQueries: {
-        GETGAMEKEY: 'SELECT Id FROM game_keys WHERE Gamekey LIKE ?',
+        GETGAMEKEY: 'SELECT Id AS gameid FROM game_keys WHERE Gamekey LIKE ?',
         SAVESESSIONKEY: 'INSERT INTO session_keys (Date, Sessionkey) VALUES (?, ?)',
         VERIFYSESSIONKEY: 'SELECT Sessionkey FROM session_keys WHERE Sessionkey LIKE ?',
         DELETESESSIONKEY: 'DELETE FROM session_keys WHERE Sessionkey=?',
@@ -125,7 +125,10 @@ const server = https.createServer(settings.https, (req, res) => {
                 {
                     if (error) reject(1)
                     else {
-                        //  Verify inserted
+                        if(results.length === 0) {
+                            sqlError = 1
+                            reject(1)
+                        }
                         resolve(0)
                     }
                 })
@@ -164,7 +167,7 @@ const server = https.createServer(settings.https, (req, res) => {
                             sqlError = 1
                             reject(1)
                         }
-                        gameID = 0 // store game ID
+                        gameID = results[0].gameid // store game ID
                         resolve(0)
                     }
                 })
@@ -205,7 +208,7 @@ const server = https.createServer(settings.https, (req, res) => {
                 {
                     if (error) reject(1)
                     else {
-                        //  Verify removed
+                        if(results.affectedRows < 1) sqlError = 1
                         resolve(0)
                     }
                 })
@@ -223,7 +226,7 @@ const server = https.createServer(settings.https, (req, res) => {
                 {
                     if (error) reject(1)
                     else {
-                        //  Verify inserted
+                        if(results.affectedRows < 1) sqlError = 1
                         resolve(0)
                     }
                 })
