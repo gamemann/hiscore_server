@@ -118,8 +118,25 @@ const server = https.createServer(settings.https, (req, res) => {
             hash = hash.digest('hex')
 
             //  Insert the session key into the DB for later
-            sqlconn.end()
+            sqlError = 0
+            await new Promise((resolve, reject) => {
+                sqlconn.query(settings.sqlQueries.SAVESESSIONKEY,
+                    [ hash ], (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        //  Verify inserted
+                        resolve(0)
+                    }
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
+                sqlconn.end()
+                console.log(`Session key not saved for ${req.socket.remoteAddress}`)
+                return 1
+            }
 
+            sqlconn.end()
             return hash  //  Return the output
         })().then((result) => { res.end(`${result}`) })
     } else if(cmdRoute === 'send-session-data' && req.method == `GET`) {
@@ -157,10 +174,47 @@ const server = https.createServer(settings.https, (req, res) => {
             }
 
             //  Checks session key in database
+            sqlError = 0
+            await new Promise((resolve, reject) => {
+                sqlconn.query(settings.sqlQueries.VERIFYSESSIONKEY,
+                    [ cmdArgs['session-key'] ], (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        if(results.length === 0) {
+                            sqlError = 1
+                            reject(1)
+                        }
+                        resolve(0)
+                    }
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
+                sqlconn.end()
+                console.log(`Session key not found for ${req.socket.remoteAddress}`)
+                return 1
+            }
 
             //  If match, remove session key from database
 
             //  On success, write game data to database
+            sqlError = 0
+            await new Promise((resolve, reject) => {
+                sqlconn.query(settings.sqlQueries.SAVESESSIONDATA,
+                    [ cmdArgs['data'] ], (error, results) =>
+                {
+                    if (error) reject(1)
+                    else {
+                        //  Verify inserted
+                        resolve(0)
+                    }
+                })
+            }).catch(res => { sqlError = 1 })
+            if(sqlError === 1) {
+                sqlconn.end()
+                console.log(`Session key not saved for ${req.socket.remoteAddress}`)
+                return 1
+            }
 
             sqlconn.end()
             return 0
