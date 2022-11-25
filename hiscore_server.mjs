@@ -38,9 +38,9 @@ const settings = {
     //  SQL queries used in the script
     sqlQueries: {
         GETGAMEKEY: 'SELECT Gamekey FROM game_keys WHERE Gamekey LIKE ?',
-        SAVESESSIONKEY: '',
-        VERIFYSESSIONKEY: '',
-        DELETESESSIONKEY: '',
+        SAVESESSIONKEY: 'INSERT INTO session_keys (Date, Sessionkey) VALUES (?, ?)',
+        VERIFYSESSIONKEY: 'SELECT Sessionkey FROM session_keys WHERE Sessionkey LIKE ?',
+        DELETESESSIONKEY: 'DELETE FROM session_keys WHERE Sessionkey=?',
         SAVESESSIONDATA: ''
     }
 }
@@ -121,7 +121,7 @@ const server = https.createServer(settings.https, (req, res) => {
             sqlError = 0
             await new Promise((resolve, reject) => {
                 sqlconn.query(settings.sqlQueries.SAVESESSIONKEY,
-                    [ hash ], (error, results) =>
+                    [ Date.toString(), hash ], (error, results) =>
                 {
                     if (error) reject(1)
                     else {
