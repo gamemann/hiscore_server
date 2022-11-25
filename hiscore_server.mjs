@@ -94,10 +94,7 @@ const server = https.createServer(settings.https, (req, res) => {
                             sqlError = 1
                             reject(1)
                         }
-                        else {
-                            sqlError = 0
-                            resolve(0)
-                        }
+                        resolve(0)
                     }
                 })
             }).catch(res => { sqlError = 1 })
@@ -149,10 +146,7 @@ const server = https.createServer(settings.https, (req, res) => {
                             sqlError = 1
                             reject(1)
                         }
-                        else {
-                            sqlError = 0
-                            resolve(0)
-                        }
+                        resolve(0)
                     }
                 })
             }).catch(res => { sqlError = 1 })
